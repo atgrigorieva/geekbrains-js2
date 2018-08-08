@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <form action="" id="cofeeMachine" name="coffeeMachine" onsubmit="cofeeMachineStart();return false;">
+        <label>Мощность машины: </label>
+        <input type="text" placeholder="Мощность" id="power" name="power">
+        <br>
+        <label>Объем резервуара для воды: </label>
+        <input type="text" placeholder="Максимальный объем" id="maxCountWater" name="maxCountWater">
+        <br>
+        <label>Количество воды: </label>
+        <input type="text" placeholder="Вода" id="countWater" name="countWater">
+        <br>
+        <label>Количество зерен: </label>
+        <input type="text" placeholder="Зерна" id="countGrains" name="countGrains">
+        <br>
+        <label>Нажмите, чтобы приготовить: </label>
+        <input type="submit" value="Начать приготовление" onclick="">
+    </form>
+    <label>Время приготовления: </label>
+    <input type="text" placeholder="0" id="timeCoffee" name="timeCoffee">
+    <label>Нажмите, чтобы остановить приготовление: </label>
+    <input type="submit" value="Остановить приготовление" onclick="coffeeMachineStop();return false;">
+    <script>
+    function CoffeeMachine(power) {
+        try {
+            var waterAmount, countGrains;
+            var maxTemp = 90;
+            var waterHeatCapacity = 4200;
+
+            //console.log(waterAmount);
+            //console.error();
+
+            this.addGrains = function(newGrains) {
+
+                if (newGrains == 0) {
+                    console.log('Вы не добавили зерна!');
+                    return 0;
+                } else {
+                    console.log(newGrains);
+                    countGrains = newGrains;
+                    return 1;
+
+                }
+
+            }
+
+            this.addWater = function(newAmount) {
+                if (newAmount >= 50) {
+                    waterAmount = newAmount;
+                    return 1;
+                    //launch();
+                } else {
+                    console.error('Слишком мало воды!');
+                    return 0;
+                }
+            };
+
+            var calcBoilTime = function() {
+                //console.log(power);
+                return (waterAmount * waterHeatCapacity * maxTemp) / power;
+            };
+
+            this.getBoilTime = function(timeCoffee) {
+
+                time = Math.round(calcBoilTime());
+                timeCoffee.value = time;
+                return time;
+
+            };
+
+            this.time = function () {
+
+                var timeCoffee = document.getElementById('timeCoffee');
+                timeCoffee.value--;
+
+                if (timeCoffee.value == 0) {
+                    console.log('Coffee ready');
+                    setTimeout(function() {}, 1000);
+                } else { setTimeout(this, 1000); }
+
+            }
+
+
+            this.launch = function() {
+                   //setTimeout(function() {
+
+
+                // }, calcBoilTime());
+                this.time;
+            }
+        } catch (e) {
+            console.log(e.name + ': ' + e.message);
+        }
+
+
+    }
+
+    function cofeeMachineStart() {
+        try {
+            var power = +document.getElementById('power').value;
+            var countWater = +document.getElementById('countWater').value;
+            var countGrains = +document.getElementById('countGrains').value;
+
+            var timeCoffee = document.getElementById('timeCoffee');
+
+            vitek = new CoffeeMachine(power, countWater);
+            trueOrFalseWater = vitek.addWater(countWater);
+
+            trueOrFalseGraints = vitek.addGrains(countGrains);
+            //console.log(trueOrFalseGraints);
+
+            if (trueOrFalseWater && trueOrFalseGraints) {
+                console.log(vitek.getBoilTime(timeCoffee));
+                console.log('Проверка пройдена');
+                vitek.launch();
+            } else {
+                if (trueOrFalseWater == 0 && trueOrFalseGraints == 1) {
+                    console.error('Кофе не возможно приготовить! Мало воды!');
+                } else {
+                    if (trueOrFalseWater == 1 && trueOrFalseGraints == 0) {
+                        console.error('Кофе не возможно приготовить! Мало зерен!');
+                    } else {
+                        console.error('Кофе не возможно приготовить! Не хватает ингредиентов. Проверьте!');
+                    }
+                }
+            }
+        } catch (e) {
+            console.log(e.name + ': ' + e.message);
+        }
+
+       
+        //vitek.waterAmount = countWater;
+
+
+        //console.log(power);
+    }
+
+    function coffeeMachineStop(){
+            try {
+            	vitek = new CoffeeMachine(power, countWater);
+
+            	var timeCoffee = document.getElementById('timeCoffee');
+            	clearInterval(vitek.time.timer);
+            	timeCoffee.value = 0;
+
+            	console.log("Остановленно");
+
+            } catch (e) {
+                console.log(e.name + ': ' + e.message);
+            }
+        }
+    //vitek = new CofeeMachine();
+    </script>
+</body>
+
+</html>
