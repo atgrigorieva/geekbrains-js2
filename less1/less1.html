@@ -9,16 +9,16 @@
 <body>
     <form action="" id="cofeeMachine" name="coffeeMachine" onsubmit="cofeeMachineStart();return false;">
         <label>Мощность машины: </label>
-        <input type="text" placeholder="Мощность" id="power" name="power">
+        <input type="text" placeholder="Мощность" id="power" name="power" value="0" pattern="[0-9][4]">
         <!--<br>
         <label>Объем резервуара для воды: </label>
         <input type="text" placeholder="Максимальный объем" id="maxCountWater" name="maxCountWater">-->
         <br>
         <label>Количество воды: </label>
-        <input type="text" placeholder="Вода" id="countWater" name="countWater">
+        <input type="text" placeholder="Вода" id="countWater" name="countWater" value="0" pattern="[0-9][4]">
         <br>
         <label>Количество зерен: </label>
-        <input type="text" placeholder="Зерна" id="countGrains" name="countGrains">
+        <input type="text" placeholder="Зерна" id="countGrains" name="countGrains" value="0" pattern="[0-9][4]">
         <br>
         <label>Нажмите, чтобы приготовить: </label>
         <input type="submit" value="Начать приготовление" onclick="">
@@ -44,7 +44,7 @@
             //cancel = true;
         }
 
-       
+
 
 
     }
@@ -97,7 +97,7 @@
 
             };
 
-           
+
 
             this.launch = function() {
                 //setTimeout(function() {
@@ -121,27 +121,32 @@
             var countGrains = +document.getElementById('countGrains').value;
 
             var timeCoffee = document.getElementById('timeCoffee');
+            if (countWater < 5000) {
 
-            vitek = new CoffeeMachine(power, countWater);
-            trueOrFalseWater = vitek.addWater(countWater);
+                vitek = new CoffeeMachine(power, countWater);
+                trueOrFalseWater = vitek.addWater(countWater);
 
-            trueOrFalseGraints = vitek.addGrains(countGrains);
-            //console.log(trueOrFalseGraints);
+                trueOrFalseGraints = vitek.addGrains(countGrains);
+                //console.log(trueOrFalseGraints);
 
-            if (trueOrFalseWater && trueOrFalseGraints) {
-                console.log(vitek.getBoilTime(timeCoffee));
-                console.log('Проверка пройдена');
-                vitek.launch();
-            } else {
-                if (trueOrFalseWater == 0 && trueOrFalseGraints == 1) {
-                    console.error('Кофе не возможно приготовить! Мало воды!');
+                if (trueOrFalseWater && trueOrFalseGraints) {
+                    console.log(vitek.getBoilTime(timeCoffee));
+                    console.log('Проверка пройдена');
+                    vitek.launch();
                 } else {
-                    if (trueOrFalseWater == 1 && trueOrFalseGraints == 0) {
-                        console.error('Кофе не возможно приготовить! Мало зерен!');
+                    if (trueOrFalseWater == 0 && trueOrFalseGraints == 1) {
+                        console.error('Кофе не возможно приготовить! Мало воды!');
                     } else {
-                        console.error('Кофе не возможно приготовить! Не хватает ингредиентов. Проверьте!');
+                        if (trueOrFalseWater == 1 && trueOrFalseGraints == 0) {
+                            console.error('Кофе не возможно приготовить! Мало зерен!');
+                        } else {
+                            console.error('Кофе не возможно приготовить! Не хватает ингредиентов. Проверьте!');
+                        }
                     }
                 }
+            }
+            else{
+                console.error("Слишком много воды");
             }
         } catch (e) {
             console.log(e.name + ': ' + e.message);
