@@ -10,9 +10,9 @@
     <form action="" id="cofeeMachine" name="coffeeMachine" onsubmit="cofeeMachineStart();return false;">
         <label>Мощность машины: </label>
         <input type="text" placeholder="Мощность" id="power" name="power">
-        <br>
+        <!--<br>
         <label>Объем резервуара для воды: </label>
-        <input type="text" placeholder="Максимальный объем" id="maxCountWater" name="maxCountWater">
+        <input type="text" placeholder="Максимальный объем" id="maxCountWater" name="maxCountWater">-->
         <br>
         <label>Количество воды: </label>
         <input type="text" placeholder="Вода" id="countWater" name="countWater">
@@ -26,8 +26,30 @@
     <label>Время приготовления: </label>
     <input type="text" placeholder="0" id="timeCoffee" name="timeCoffee">
     <label>Нажмите, чтобы остановить приготовление: </label>
-    <input type="submit" value="Остановить приготовление" onclick="coffeeMachineStop();return false;">
+    <input name="stop" id="stop" type="submit" value="Остановить приготовление" onclick="coffeeMachineStop();return false;">
     <script>
+    var timerId;
+
+    function timer() {
+
+        var timeCoffee = document.getElementById('timeCoffee');
+        timeCoffee.value--;
+        // var timerId;
+
+        if (timeCoffee.value == 0) {
+            console.log('Coffee ready');
+            timerId = setTimeout(timer, 1000);
+        } else {
+            timerId = setTimeout(timer, 1000);
+            //cancel = true;
+        }
+
+       
+
+
+    }
+
+
     function CoffeeMachine(power) {
         try {
             var waterAmount, countGrains;
@@ -75,25 +97,14 @@
 
             };
 
-            this.time = function () {
-
-                var timeCoffee = document.getElementById('timeCoffee');
-                timeCoffee.value--;
-
-                if (timeCoffee.value == 0) {
-                    console.log('Coffee ready');
-                    setTimeout(function() {}, 1000);
-                } else { setTimeout(this, 1000); }
-
-            }
-
+           
 
             this.launch = function() {
-                   //setTimeout(function() {
+                //setTimeout(function() {
+
+                timer();
 
 
-                // }, calcBoilTime());
-                this.time;
             }
         } catch (e) {
             console.log(e.name + ': ' + e.message);
@@ -101,6 +112,7 @@
 
 
     }
+
 
     function cofeeMachineStart() {
         try {
@@ -135,27 +147,33 @@
             console.log(e.name + ': ' + e.message);
         }
 
-       
-        //vitek.waterAmount = countWater;
 
-
-        //console.log(power);
     }
+    var counClick = 0;
 
-    function coffeeMachineStop(){
-            try {
-            	vitek = new CoffeeMachine(power, countWater);
+    function coffeeMachineStop() {
+        try {
 
-            	var timeCoffee = document.getElementById('timeCoffee');
-            	clearInterval(vitek.time.timer);
-            	timeCoffee.value = 0;
+            var timeCoffee = document.getElementById('timeCoffee');
+            if (timerId)
+                clearTimeout(timerId);
 
-            	console.log("Остановленно");
+            console.log("Остановленно");
 
-            } catch (e) {
-                console.log(e.name + ': ' + e.message);
+            var stop = document.getElementById('stop');
+
+            stop.value = "Возобновить";
+            counClick++;
+
+            if (stop.value == "Возобновить" && counClick == 2) {
+                timer();
+                stop.value = "Остановить приготовление";
+                counClick = 0;
             }
+        } catch (e) {
+            console.log(e.name + ': ' + e.message);
         }
+    }
     //vitek = new CofeeMachine();
     </script>
 </body>
