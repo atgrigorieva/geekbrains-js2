@@ -9,22 +9,22 @@
 <body>
     <form action="" id="cofeeMachine" name="coffeeMachine" onsubmit="cofeeMachineStart();return false;">
         <label>Мощность машины: </label>
-        <input type="text" placeholder="Мощность" id="power" name="power" value="0" pattern="[0-9][4]">
+        <input type="text" placeholder="Мощность" id="power" name="power" value="0">
         <!--<br>
         <label>Объем резервуара для воды: </label>
         <input type="text" placeholder="Максимальный объем" id="maxCountWater" name="maxCountWater">-->
         <br>
         <label>Количество воды: </label>
-        <input type="text" placeholder="Вода" id="countWater" name="countWater" value="0" pattern="[0-9][4]">
+        <input type="text" placeholder="Вода" id="countWater" name="countWater" value="0" >
         <br>
         <label>Количество зерен: </label>
-        <input type="text" placeholder="Зерна" id="countGrains" name="countGrains" value="0" pattern="[0-9][4]">
+        <input type="text" placeholder="Зерна" id="countGrains" name="countGrains" value="0" >
         <br>
         <label>Нажмите, чтобы приготовить: </label>
         <input type="submit" value="Начать приготовление" onclick="">
     </form>
     <label>Время приготовления: </label>
-    <input type="text" placeholder="0" id="timeCoffee" name="timeCoffee">
+    <input type="text" placeholder="0" id="timeCoffee" name="timeCoffee" readonly>
     <label>Нажмите, чтобы остановить приготовление: </label>
     <input name="stop" id="stop" type="submit" value="Остановить приготовление" onclick="coffeeMachineStop();return false;">
     <script>
@@ -38,7 +38,9 @@
 
         if (timeCoffee.value == 0) {
             console.log('Coffee ready');
-            timerId = setTimeout(timer, 1000);
+            //timerId = setTimeout(timer, 1000);
+            if (timerId)
+                clearTimeout(timerId);
         } else {
             timerId = setTimeout(timer, 1000);
             //cancel = true;
