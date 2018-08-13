@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+    const BaseURL = 'http://89.108.65.123';
+
+    //var users;
+
+
+
+    function Users(users) {
+        console.log('Количество user: ' + users.length);
+
+        for (var number in users) {
+            console.log('Пользователь под данным номером ' + number + ' = ' + users[number].name + ', эл. почта пользователя: ' + users[number].email + ', возраст пользователя: ' + users[number].age);
+        }
+
+
+    }
+
+    function getNumberUser(users, number) {
+
+        //console.log(users.length);
+        if (number < users.length)
+            console.log('Пользователь под данным номером ' + number + ' = ' + users[number].name + ', эл. почта пользователя: ' + users[number].email + ', возраст пользователя: ' + users[number].age);
+        else console.log('Пользователь под данным номером не найден');
+
+    }
+
+    // function addUser(users, name, email, age) {
+    //     users.push({ 'name': name, 'email': email, 'age': age });
+    // }
+
+    const sendUser = (users, name, email, age) => {
+        const data =  {'name': name, 'email': email, 'age': age };
+        fetch(`${BaseURL}/user`, {
+            method: 'POST',
+            body: JSON.stringify(data),
+        }).then(() => {
+            //myText.value = '';
+            //getUser();
+            console.log("Новый пользователь добавлен!");
+        }).catch((err) => {
+            console.error(err);
+        })
+    };
+
+    const getUser = () => {
+        fetch(`${BaseURL}/user`)
+            .then(function(response) {
+                //console.log(response.headers.get('Content-Type')); // application/json; charset=utf-8
+                //console.log(response.status); // 200
+                // console.log(response.text());
+                return response.text();
+
+                // return response.json();
+
+            })
+            .then(function(data) {
+                // console.log(data); // iliakan
+                users = JSON.parse(data);
+
+                Users(users);
+
+
+                number = 5;
+
+                console.log('Получение пользователя под номером ' + number + ': ');
+
+                getNumberUser(users, number);
+
+                sendUser(users, 'Anna', 'anna@gmail.ru', '25');
+
+
+
+
+                // addUser(users, 'Andrew', 'andrew@gmail.ru', '25');
+
+                //  Users(users);
+
+
+
+                ///return users;
+                //console.log(users[1]);  
+
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+    };
+
+
+
+
+
+
+
+    window.onload = () => {
+        getUser();
+        //  console.log(us1);
+    }
+
+
+    //console.log(users);
+
+    // var result = "";
+    // for (var i in users) {
+    //     if (users.hasOwnProperty(i)) {
+    //         result += 'objName' + "." + i + " = " + users[i] + "\n";
+    //     }
+    // }
+    // console.log(result);
+    </script>
+</body>
+
+</html>
