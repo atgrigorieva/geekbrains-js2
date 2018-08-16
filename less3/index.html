@@ -19,7 +19,7 @@
         <p>Sed ut perspiciatis, quis nostrum exercitationem ullam corporis suscipit laboriosam, ut et voluptates repudiandae sint et molestiae non recusandae. Excepteur sint occaecat cupidatat non proident, nam libero tempore, 'cum soluta nobis est eligendi optio, cumque' nihil impedit, quo minus id, quod maxime placeat, obcaecati cupiditate non provident, similique sunt in culpa, qui 'officia deserunt mollitia 'animi, id est laborum et dolorum fuga. Excepteur sint occaecat cupidatat non proident, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
         <p>Nemo enim ipsam voluptatem, qui blanditiis praesentium 'voluptatum deleniti' atque corrupti, quos dolores et quas molestias 'excepturi sint,' quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. Quis autem vel eum iure reprehenderit, consectetur adipiscing elit, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo?</p>
         <p>Itaque earum...</p>
-        <p>aren't</p>
+        <p>'Hello user'. Git aren't</p>
     </div>
     <input type="submit" value="Заменить кавычки" onclick="newReplaceQuotationMarks();return false;">
     <h2>Обратная связь</h2>
@@ -61,15 +61,15 @@
     function newReplaceQuotationMarks() {
         var textblock2 = document.getElementById("textBlock2").querySelectorAll("p");
 
-        var quotationMarks = new RegExp(/[']+/g);
-        var test = new RegExp(/[aA-zZ]['][aA-zZ]/);
+        var quotationMarks = new RegExp(/\b'\B|\B'\b|'$/g);
+        //var test = new RegExp(/[aA-zZ]['][aA-zZ]/);
 
         for (var i = 0; i < textblock2.length; i++) {
             //console.log((test.test(textblock2[i].innerText)));
-            if (!(test.test(textblock2[i].innerText))) {
-                var newTextBlock = textblock2[i].innerText.replace(quotationMarks, '"');
-                textblock2[i].innerText = newTextBlock;
-            }
+
+            var newTextBlock = textblock2[i].innerText.replace(quotationMarks, '"');
+            textblock2[i].innerText = newTextBlock;
+
             //console.log(textblock1[i].innerText);
         }
 
